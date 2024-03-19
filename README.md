@@ -1,10 +1,10 @@
 # DreamArrangement: Language-Conditioned Robotic Object Rearrangement
 
-This holds the implementation for [DreamArrangement: Learning Language-conditioned Robotic Rearrangement of Objects via Denoising Diffusion and VLM Planner](https://wenkai-chen.com/publication/dreamarrangement).
+This repository holds the PyTorch implementation for [DreamArrangement: Learning Language-conditioned Robotic Rearrangement of Objects via Denoising Diffusion and VLM Planner](https://wenkai-chen.com/publication/dreamarrangement).
 
 
 ## Environment
-Install the conda environment <br>
+Install the conda environment:
 ```
 conda create -n dreamrearrange python=3.8
 conda install pytorch=1.11.0 cudatoolkit=11.3 torchvision=0.12.0 -c pytorch

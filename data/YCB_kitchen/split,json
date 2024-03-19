@@ -1,0 +1,8 @@
+[
+    {
+        "layout1_practical": {"description": "Knives and forks are placed on the same side of the plates, while four plates are placed in parallel two-by-two.", "shape": 0, "surround": 1, "maxnobj": 12, "maxnmask": 1, "folder": ["shape1", "shape2", "texture1"]}
+    }, 
+    {
+        "layout1_practical": {"description": "Knives and forks are placed on the same side of the plates, while four plates are placed in parallel two-by-two.", "shape": 0, "surround": 1, "maxnobj": 12, "maxnmask": 1, "folder": ["shape3"]}
+    }
+]

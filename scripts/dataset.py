@@ -342,18 +342,18 @@ class TableDataset:
         if not weigh_by_class and not within_floorplan and not no_penetration:
             # NOTE: each scene has zero-mean gaussian distributions for noise
             # noisy_pos = add_gaussian_gaussian_noise_by_class("chair', noisy_orig_pos, noisy_orig_sha, noise_level_stddev=noise_level_stddev)
-            noise_level = noise_schedule.sqrt_one_minus_alphas_cumprod.gather(-1, t.cpu())
-            scene_noise_level = noise_level_stddev * noise_level
-            scene_angle_noise_level = angle_noise_level_stddev * noise_level
-            noisy_pos = np.zeros((noisy_orig_pos.shape))
-            for scene_idx in range(noisy_orig_pos.shape[0]):
-                noisy_pos[scene_idx] = np_add_gaussian_noise_scale(noisy_orig_pos[scene_idx], scene_noise_level[scene_idx])
-            noise_rads = np.zeros((noisy_orig_ang.shape[0], noisy_orig_ang.shape[1], 1))
-            for scene_idx in range(noisy_orig_ang.shape[0]):
-                noise_rads[scene_idx] = np.random.normal(size=(noisy_orig_ang.shape[1], 1), loc=0.0, scale=scene_angle_noise_level[scene_idx])
-            noisy_ang = np_rotate_wrapper(noisy_orig_ang, noise_rads)
-            # noisy_pos = np_add_gaussian_gaussian_noise(noisy_orig_pos, noise_level_stddev=noise_level_stddev)
-            # noisy_ang = np_add_gaussian_gaussian_angle_noise(noisy_orig_ang, noise_level_stddev=angle_noise_level_stddev) # [batch_size, maxnumobj, 2], stay normalized
+            # noise_level = noise_schedule.sqrt_one_minus_alphas_cumprod.gather(-1, t.cpu())
+            # scene_noise_level = noise_level_stddev * noise_level
+            # scene_angle_noise_level = angle_noise_level_stddev * noise_level
+            # noisy_pos = np.zeros((noisy_orig_pos.shape))
+            # for scene_idx in range(noisy_orig_pos.shape[0]):
+            #     noisy_pos[scene_idx] = np_add_gaussian_noise_scale(noisy_orig_pos[scene_idx], scene_noise_level[scene_idx])
+            # noise_rads = np.zeros((noisy_orig_ang.shape[0], noisy_orig_ang.shape[1], 1))
+            # for scene_idx in range(noisy_orig_ang.shape[0]):
+            #     noise_rads[scene_idx] = np.random.normal(size=(noisy_orig_ang.shape[1], 1), loc=0.0, scale=scene_angle_noise_level[scene_idx])
+            # noisy_ang = np_rotate_wrapper(noisy_orig_ang, noise_rads)
+            noisy_pos = np_add_gaussian_gaussian_noise(noisy_orig_pos, noise_level_stddev=noise_level_stddev)
+            noisy_ang = np_add_gaussian_gaussian_angle_noise(noisy_orig_ang, noise_level_stddev=angle_noise_level_stddev) # [batch_size, maxnumobj, 2], stay normalized
             
             static_mask_pos = np.tile(np.expand_dims(no_translate_mask, axis=-1), (1, 1, self.pos_dim))
             static_mask_ang = np.tile(np.expand_dims(no_rotate_mask, axis=-1), (1, 1, self.ang_dim))

@@ -128,22 +128,22 @@ def denoise_1scene(i, mask, cond, un_cond, word, args, method, device, model, to
 
     traj = [] # (iter, 6, 2)
     # local_max_iter = 1 if method == "direct_map_once" else max_iter # global
-    local_max_iter = 1 if method == "direct_map_once" else total_t
+    local_max_iter = 1 if method == "direct_map_once" else 35
     conse_break_meets = 0 # counts the consecutive number of times it has met the break condition
     iter_i = 0
     pos_disp_size, ang_disp_pi_size = 1, 1
     for iter_i in range(local_max_iter):  
         step_size =  step_size0 / (1 + step_decay*iter_i) 
-        noise_scale = noise_scale0 * noise_decay**(iter_i // noise_drop_freq) # standard deviation
-        ang_noise_scale = noise_scale/noise_scale0 * ((np.pi/4)/10)  # noise_scale0=0.01 correspond to (np.pi/4)/10
+        # noise_scale = noise_scale0 * noise_decay**(iter_i // noise_drop_freq) # standard deviation
+        # ang_noise_scale = noise_scale/noise_scale0 * ((np.pi/4)/10)  # noise_scale0=0.01 correspond to (np.pi/4)/10
 
         t = torch.LongTensor([local_max_iter - 1 - iter_i])
-        # sqrt_posterior_variance_t = np.sqrt(schedule.posterior_variance[t].item()) * 0.1
+        sqrt_posterior_variance_t = np.sqrt(schedule.posterior_variance[t].item()) * 0.1
         # betas_t = schedule.betas[t].item()
         # sqrt_one_minus_alphas_cumprod_t = schedule.sqrt_one_minus_alphas_cumprod[t].item()
         # step_size = betas_t / sqrt_one_minus_alphas_cumprod_t * 10.0
-        # noise_scale = args['train_pos_noise_level_stddev'] * sqrt_posterior_variance_t
-        # ang_noise_scale = args['train_ang_noise_level_stddev'] * sqrt_posterior_variance_t
+        noise_scale = args['train_pos_noise_level_stddev'] * sqrt_posterior_variance_t
+        ang_noise_scale = args['train_ang_noise_level_stddev'] * sqrt_posterior_variance_t
 
         t = t.to(device)
 
@@ -183,7 +183,7 @@ def denoise_1scene(i, mask, cond, un_cond, word, args, method, device, model, to
 
         if ang_d>0: i[:,:,pos_d:pos_d+ang_d] = torch_rotate_wrapper(i[:,:,pos_d:pos_d+ang_d], ang_disp_pi*step_size) # length preserved (stay normalized)
         
-        if add_noise==True and t > 0: 
+        if add_noise==True and 35 > 0: 
             # NOTE: zero-mean gaussian distributions for noise (std-dev designated by noise scale)
             i[:,:,0:pos_d]+=torch.tensor(np.random.normal(size=(i[:,:,0:pos_d]).shape, loc=0.0, scale=noise_scale)).to(device)
             if ang_d>0: 
@@ -233,21 +233,21 @@ def denoise_1batch(i, mask, cond, un_cond, word, args, method, device, model, to
         bbox_mean_big = torch.tensor([bbox_y + bbox_h / 2, bbox_x + bbox_w / 2]).unsqueeze(0).unsqueeze(0).to(device)
 
     # local_max_iter = 1 if method == "direct_map_once" else max_iter # global
-    local_max_iter = 1 if method == "direct_map_once" else total_t[0]
+    local_max_iter = 1 if method == "direct_map_once" else 35
     iter_i = 0
     initial = i.detach().cpu()
     for iter_i in range(local_max_iter):  
         step_size =  step_size0 / (1 + step_decay*iter_i) 
-        noise_scale = noise_scale0 * noise_decay**(iter_i // noise_drop_freq) # standard deviation
-        ang_noise_scale = noise_scale/noise_scale0 * ((np.pi/4)/10)  # noise_scale0=0.01 correspond to (np.pi/4)/10
+        # noise_scale = noise_scale0 * noise_decay**(iter_i // noise_drop_freq) # standard deviation
+        # ang_noise_scale = noise_scale/noise_scale0 * ((np.pi/4)/10)  # noise_scale0=0.01 correspond to (np.pi/4)/10
 
         t = torch.LongTensor([local_max_iter - 1 - iter_i])
-        # sqrt_posterior_variance_t = np.sqrt(schedule.posterior_variance[t].item()) * 0.1
+        sqrt_posterior_variance_t = np.sqrt(schedule.posterior_variance[t].item()) * 0.1
         # betas_t = schedule.betas[t].item()
         # sqrt_one_minus_alphas_cumprod_t = schedule.sqrt_one_minus_alphas_cumprod[t].item()
         # step_size = betas_t / sqrt_one_minus_alphas_cumprod_t * 10.0
-        # noise_scale = args['train_pos_noise_level_stddev'] * sqrt_posterior_variance_t
-        # ang_noise_scale = args['train_ang_noise_level_stddev'] * sqrt_posterior_variance_t
+        noise_scale = args['train_pos_noise_level_stddev'] * sqrt_posterior_variance_t
+        ang_noise_scale = args['train_ang_noise_level_stddev'] * sqrt_posterior_variance_t
 
         t = t.repeat(i.shape[0])
         t = t.to(device)
@@ -278,7 +278,7 @@ def denoise_1batch(i, mask, cond, un_cond, word, args, method, device, model, to
 
         if ang_d>0: i[:,:,pos_d:pos_d+ang_d] = torch_rotate_wrapper(i[:,:,pos_d:pos_d+ang_d], ang_disp_pi*step_size) # length preserved (stay normalized)
         
-        if add_noise==True and t[0] > 0: 
+        if add_noise==True and 35 > 0: 
             # NOTE: zero-mean gaussian distributions for noise (std-dev designated by noise scale)
             i[:,:,0:pos_d]+=torch.tensor(np.random.normal(size=(i[:,:,0:pos_d]).shape, loc=0.0, scale=noise_scale)).to(device)
             if ang_d>0: 
@@ -679,10 +679,7 @@ def initialize_parser():
     parser.add_argument("--model_path", type = str, help="If train==1 && resume_train==1, serves as the model path from which to resume training; otherwise, serves as the model to use for inference.")
 
     ## for train==0
-    parser.add_argument("--normal_denoisng", type = int, default=0, help="Inference specific. If 1, will do general purpose inference.")
-    parser.add_argument("--stratefied_mass_denoising", type = int, default=1, help="Inference specific. If 1, will do inference with stratefied noise levels, no visualization, same set for all noise level. \
-                                                                                    For use cases such as FID/KID/analysis.")
-    parser.add_argument("--random_mass_denoising", type = int, default=0, help="Inference specific. If 1, will do inference for a wide range of noise levels and scenes. For use cases such as examining qualitative performance.")
+    parser.add_argument("--stratefied_mass_denoising", type = int, default=1, help="Inference specific. If 1, will do inference with stratefied noise levels.")
     ### for kitchen
     parser.add_argument("--denoise_weigh_by_class", type = int, default=0, help="Inference specific. kitchen specific. If 1, in inference data generation, objects with higher volume will move less.") 
     parser.add_argument("--denoise_within_floorplan", type = int, default=1, help="Inference specific. kitchen specific. If 1, in inference data generation, objects must be within boundary of floor plan.") 
@@ -799,33 +796,14 @@ if __name__ == "__main__":
 
         
         # inference/denoising
-        ## 1. Normal denoising
-        if args['normal_denoisng']:
-            noise_levels = [0.1, 0.3, 0.5]  # [0.05, 0.1, 0.2, 0.25, 0.3, 0.4, 0.5, 0.7] 
-            angle_noise_levels = [np.pi/12, np.pi/4, np.pi/2]  # [np.pi/20, np.pi/12, np.pi/8, np.pi/6, np.pi/4, np.pi/3, np.pi/2, np.pi]  # 9, 15, 22.5, 30, 45, 60, 90, 180 
-            denoise_meta(args, models, schedule, numscene=2, numtrials=1, use_methods=[True, False, True, True], data_type=args['data_type'], device=args['device'],
-                         noise_levels=noise_levels, angle_noise_levels=angle_noise_levels)
-
-        ## 2. Mass inference/denoising
+        ## 1. Mass inference/denoising
         if args['stratefied_mass_denoising']:
             # noise_levels = [0.25]
             # angle_noise_levels = [np.pi/4] # [np.pi/24, np.pi/12, np.pi/6, np.pi/4, np.pi/3, np.pi/2, np.pi]  # 15, 30, 45, 60, 90, 180 
-            noise_levels = [0.5]
+            noise_levels = [1.0]
             angle_noise_levels = [np.pi/3] # [np.pi/24, np.pi/12, np.pi/6, np.pi/4, np.pi/3, np.pi/2, np.pi]  # 15, 30, 45, 60, 90, 180
             denoise_meta(args, models, schedule, numscene=10, numtrials=5, use_methods=[True, False, True, True], data_type=args['data_type'], device=args['device'],
                          noise_levels=noise_levels, angle_noise_levels=angle_noise_levels)
-
-        ## 3. Mass inference/denoising
-        if args['random_mass_denoising']:
-            numscene, n_nl, nset = 1, 10, 2 # structure of set for ease of navigation
-            for i in range(nset):
-                current_dir = f"set{i}"
-                noise_levels = sorted(np.random.uniform(low=0.05, high=0.7, size=[n_nl])) 
-                angle_noise_levels = sorted(np.random.uniform(low=np.pi/24, high=np.pi, size=[n_nl]))
-                log(f"Denoising: noise_levels={noise_levels}, angle_noise_levels={angle_noise_levels}")
-                denoise_meta(args, models, schedule, numscene=numscene, numtrials=5, use_methods=[False, False, True, True], data_type=args['data_type'], device=args['device'],
-                             noise_levels=noise_levels, angle_noise_levels=angle_noise_levels)
-
 
     log(f"\nTime: {datetime.datetime.now().strftime('%Y%m%d_%H%M%S_%f')[:-3]}")
     log(f"### Done (results saved to {args['logfile']})\n")
