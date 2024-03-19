@@ -1,0 +1,8 @@
+[
+    {
+        "layout2": {"description": "Put boxes and cans in certain places.", "shape": 4, "surround": 0, "maxnobj": 12, "maxnmask": 3, "folder": ["shape2", "shape3"]}
+    }, 
+    {
+        "layout2": {"description": "Put boxes and cans in certain places.", "shape": 4, "surround": 0, "maxnobj": 12, "maxnmask": 3, "folder": ["shape1"]}
+    }
+]

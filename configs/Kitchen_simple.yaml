@@ -1,0 +1,5 @@
+dataset_path: data/kitchen
+num_class: 12
+floorplan_class: 1
+no_rotate_class: [4, 5, 7]
+mask_types: 1
