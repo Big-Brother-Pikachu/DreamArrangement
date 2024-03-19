@@ -49,7 +49,7 @@ python train.py  --train 0 --use_position 0 --use_time 0 --denoise_within_floorp
 <img src="./README_media/inference/14_groundtruth.jpg" alt= “” width="260" height="value" style="vertical-align:middle;margin:0px 0px">  |  <img src="./README_media/inference/14_initial.jpg" alt= “” width="260" height="value" style="vertical-align:middle;margin:0px 0px"> | <img src="./README_media/inference/14_trans50000-grad_nonoise.jpg" alt= “” width="260" height="value" style="vertical-align:middle;margin:0px 0px"> -->
 
 
-## Acknowledgements
+## Acknowledgments
 This code repository is heavily based on [LEGO-Net](https://github.com/QiuhongAnnaWei/LEGO-Net).
 
 
