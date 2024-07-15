@@ -1,6 +1,6 @@
 # DreamArrangement: Language-Conditioned Robotic Object Rearrangement
 
-This repository holds the PyTorch implementation for [DreamArrangement: Learning Language-conditioned Robotic Rearrangement of Objects via Denoising Diffusion and VLM Planner](https://wenkai-chen.com/publication/dreamarrangement).
+This repository holds the PyTorch implementation for [DreamArrangement: Learning Language-Conditioned Robotic Rearrangement of Objects via Denoising Diffusion and VLM Planner](https://wenkai-chen.com/publication/dreamarrangement).
 
 
 ## Environment
