@@ -20,7 +20,7 @@ pip install git+https://hub.nuaa.cf/openai/CLIP.git
 <!-- <img src="./pics/dataset.jpg" width="600" style="display:block; margin-left:auto; margin-right:auto;" /> -->
 
 <div style="text-align:center;">
-  <img src="./pics/dataset.jpg" />
+  <img src="./pics/dataset.jpg"  width="600" />
 </div>
 
 
