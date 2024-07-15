@@ -17,7 +17,7 @@ pip install git+https://hub.nuaa.cf/openai/CLIP.git
 
 * `2D-Tabletop dataset`: It includes two parts: [YCB_kitchen_data](https://drive.google.com/file/d/1FI0XiT3d7KeG4ScIXyHBdu_mqrV3mSVi/view?usp=drive_link) for horizontal, vertical, and circle scenes, [YCB_Inpainted_data](https://drive.google.com/file/d/1Y_6Te50msNpeA6TrClUOmItbO9PwUHL-/view?usp=drive_link) for cantaining scenes. The data are already processed and can be directly used for training. You should put them in the `data` folder.
 
-<img src="./pics/dataset.jpg" alt= “” width="600" height="value" style="vertical-align:middle;margin:0px 40px">
+<img src="./pics/dataset.jpg" alt= “” width="600" height="value" style="vertical-align:middle">
 
 
 ## Training
