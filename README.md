@@ -12,17 +12,12 @@ pip install opencv-python scipy scikit-learn matplotlib pandas ortools omegaconf
 pip install git+https://hub.nuaa.cf/openai/CLIP.git
 ```
 
-<!-- ## Downloads
-Downloadable assets may be found at [this google drive](https://drive.google.com/drive/folders/1MmSb6461ixGGqGa5hRY3s0IR4xTeRdPF?usp=sharing). It contains:
-* Preprocessed 3D-FRONT data: ``3DFRONT_65347``
-  * The preprocessing script can be found at `data/preprocess_TDFront.py`. It operates on the output of [ATISS](https://github.com/nv-tlabs/ATISS)'s preprocessing script. See code for details.
-
 
 ## Datasets
 
-* `2dkitchen`: [2D-Tabletop dataset](https://tianchi.aliyun.com/specials/promotion/alibaba-3d-scene-dataset) (professionally designed indoor scenes); currently support bedroom and livingroom. [Here](https://tianchi.aliyun.com/dataset/65347) is the exact version used for experimentation.
+* `2D-Tabletop dataset`: It includes two parts: [YCB_kitchen_data](https://drive.google.com/file/d/1FI0XiT3d7KeG4ScIXyHBdu_mqrV3mSVi/view?usp=drive_link) for horizontal, vertical, and circle scenes, [YCB_Inpainted_data](https://drive.google.com/file/d/1Y_6Te50msNpeA6TrClUOmItbO9PwUHL-/view?usp=drive_link) for cantaining scenes. The data are already processed and can be directly used for training. You should put them in the `data` folder.
 
-<img src="./README_media/data/datasettings2.jpg" alt= “” width="300" height="value" style="vertical-align:middle;margin:0px 40px"> -->
+<img src="./pics/dataset.jpg" alt= “” width="300" height="value" style="vertical-align:middle;margin:0px 40px">
 
 
 ## Training
@@ -32,9 +27,9 @@ To train for 2D-Tabletop data:
 python train.py  --train 1 --use_position 0 --use_time 0 --train_epoch 30000  --train_pos_noise_level_stddev 1.0 --train_ang_noise_level_stddev 1.047198  --train_within_floorplan 1 --train_batch_size 64 --text_form word --data_augment 4 --use_emd 1 --use_move_less 1 --data_type YCB_kitchen YCB_Inpainted
 ```
 
-<!-- ### Pretrained Weights
-We also provide DreamArrangement weights pretrained on 2D-Tabletop for 30k iterations.
-* [Pretrained bedroom weight](https://drive.google.com/file/d/183j3i6R-YtgyOkWsUYnH894ZBkdyseZH/view?usp=sharing) -->
+### Pretrained Weights
+We provide DreamArrangement weights pretrained on 2D-Tabletop for 30k iterations.
+* [best-model weight](https://drive.google.com/file/d/1FrwXlp-LRbcMn8wuJqYLTei06BxmwsSG/view?usp=drive_link)
 
 
 ## Evaluation
