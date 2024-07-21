@@ -47,8 +47,8 @@ python train.py  --train 0 --use_position 0 --use_time 0 --denoise_within_floorp
 
 
 ## Acknowledgments
-This code repository is heavily based on [LEGO-Net](https://github.com/QiuhongAnnaWei/LEGO-Net).
-
+* [LEGO-Net](https://github.com/QiuhongAnnaWei/LEGO-Net).
+* [StructDiffusion](https://github.com/StructDiffusion/StructDiffusion).
 
 ## Citation
 If you find our work useful in your research, please cite:
